@@ -4,6 +4,7 @@ version: 1.4.0
 passwd:
   users:
     - name: core
+      # replace hash string bellow with yours
       password_hash: "$6$Gjd7qhKFfWYrDGrq$UaAVC5pgtetri3jRoEwdIDS5AD0EVOLFxubdgDrHQ7nzubEahvtE2itTRtGcCe5ap4U8zi44uw69h9tuJb0xk0"
 systemd:
   units:
