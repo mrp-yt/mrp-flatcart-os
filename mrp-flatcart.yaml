@@ -1,5 +1,5 @@
 variant: flatcar
-version: 1.5.0
+version: 1.0.0
 
 passwd:
   users:
@@ -22,7 +22,7 @@ systemd:
 
         [Service]
         Type=oneshot
-        ExecStart=/usr/bin/bash -c 'mkdir -p /usr/libexec/docker/cli-plugins && curl -sSL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/libexec/docker/cli-plugins/docker-compose && chmod +x /usr/libexec/docker/cli-plugins/docker-compose'
+        ExecStart=/bin/bash -c 'mkdir -p /usr/libexec/docker/cli-plugins && curl -sSL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/libexec/docker/cli-plugins/docker-compose && chmod +x /usr/libexec/docker/cli-plugins/docker-compose'
         RemainAfterExit=yes
 
         [Install]
