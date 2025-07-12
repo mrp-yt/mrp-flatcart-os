@@ -1,35 +1,39 @@
-# filename: flatcar-config.yaml
-variant: flatcar
-version: 1.0.0
 
+variant: fcos
+version: 1.4.0
 passwd:
   users:
     - name: core
-      # It's highly recommended to use SSH keys for security.
-      # Replace this with your actual SSH public key, e.g.:
-      # ssh_authorized_keys:
-      #   - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC... your_email@example.com
-      password_hash: "$6$r4Q2aGJTFlQProi5$lV9XcTiENdyu08aok9rnJ78IeOaj9OqZuOqzGqQm2kVw4Xot7YdKabYnaygp1SSHfBX4iOKHTaXUZIj43YBSJ0"
-      groups: [docker, sudo]
-
+      password_hash: "$6$Gjd7qhKFfWYrDGrq$UaAVC5pgtetri3jRoEwdIDS5AD0EVOLFxubdgDrHQ7nzubEahvtE2itTRtGcCe5ap4U8zi44uw69h9tuJb0xk0"
 systemd:
   units:
-    # Ensure Docker service is enabled and started
-    - name: docker.service
-      enabled: true
-
     - name: docker-compose-install.service
       enabled: true
       contents: |
         [Unit]
-        Description=Install Docker Compose V2 plugin
+        Description=Install Docker Compose
+        After=network-online.target
         Wants=network-online.target
-        After=network-online.target docker.service
-
         [Service]
         Type=oneshot
-        ExecStart=/usr/bin/bash -c 'mkdir -p /usr/local/bin && /usr/bin/curl -sSL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose'
         RemainAfterExit=yes
-
+        ExecStartPre=/usr/bin/mkdir -p /opt/bin
+        ExecStartPre=/usr/bin/curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64" -o /opt/bin/docker-compose
+        ExecStart=/usr/bin/chmod +x /opt/bin/docker-compose
+        [Install]
+        WantedBy=multi-user.target
+    - name: btop-install.service
+      enabled: true
+      contents: |
+        [Unit]
+        Description=Install btop
+        After=network-online.target
+        Wants=network-online.target
+        [Service]
+        Type=oneshot
+        RemainAfterExit=yes
+        ExecStartPre=/usr/bin/mkdir -p /opt/bin
+        ExecStartPre=/usr/bin/curl -L "https://github.com/aristocratos/btop/releases/download/v1.2.13/btop-x86_64-linux-musl" -o /opt/bin/btop
+        ExecStart=/usr/bin/chmod +x /opt/bin/btop
         [Install]
         WantedBy=multi-user.target
