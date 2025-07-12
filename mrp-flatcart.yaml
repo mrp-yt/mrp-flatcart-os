@@ -1,0 +1,37 @@
+variant: flatcar
+version: 1.5.0
+
+passwd:
+  users:
+    - name: core
+      password_hash: "$6$gmpZzqWoHXaKtOtG$mnBgLEWlYf6pTQVEHo0RRlC8k0/4SzV6.fR7G0ZoxGLz9jXzGuNDfL4ZhUJ3hKpN6sXg1NS0FcyrxDLaev4d6."
+      groups: [docker, sudo]
+
+systemd:
+  units:
+    - name: docker.service
+      enabled: true
+
+    - name: docker-compose-install.service
+      enabled: true
+      contents: |
+        [Unit]
+        Description=Install Docker Compose V2 plugin
+        Wants=network-online.target
+        After=network-online.target docker.service
+
+        [Service]
+        Type=oneshot
+        ExecStart=/usr/bin/bash -c 'mkdir -p /usr/libexec/docker/cli-plugins && curl -sSL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/libexec/docker/cli-plugins/docker-compose && chmod +x /usr/libexec/docker/cli-plugins/docker-compose'
+        RemainAfterExit=yes
+
+        [Install]
+        WantedBy=multi-user.target
+
+storage:
+  files:
+    - path: /etc/profile.d/01-docker-alias.sh
+      mode: 0755
+      contents:
+        inline: |
+          export DOCKER_CLI_PLUGIN=/usr/libexec/docker/cli-plugins
