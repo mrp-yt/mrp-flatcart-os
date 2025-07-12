@@ -4,7 +4,7 @@ version: 1.5.0
 passwd:
   users:
     - name: core
-      password_hash: "$6$gmpZzqWoHXaKtOtG$mnBgLEWlYf6pTQVEHo0RRlC8k0/4SzV6.fR7G0ZoxGLz9jXzGuNDfL4ZhUJ3hKpN6sXg1NS0FcyrxDLaev4d6."
+      password_hash: "$6$r4Q2aGJTFlQProi5$lV9XcTiENdyu08aok9rnJ78IeOaj9OqZuOqzGqQm2kVw4Xot7YdKabYnaygp1SSHfBX4iOKHTaXUZIj43YBSJ0"
       groups: [docker, sudo]
 
 systemd:
