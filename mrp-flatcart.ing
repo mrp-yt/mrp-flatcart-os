@@ -10,19 +10,7 @@
           "sudo"
         ],
         "name": "core",
-        "passwordHash": "$6$gmpZzqWoHXaKtOtG$mnBgLEWlYf6pTQVEHo0RRlC8k0/4SzV6.fR7G0ZoxGLz9jXzGuNDfL4ZhUJ3hKpN6sXg1NS0FcyrxDLaev4d6."
-      }
-    ]
-  },
-  "storage": {
-    "files": [
-      {
-        "path": "/etc/profile.d/01-docker-alias.sh",
-        "contents": {
-          "compression": "",
-          "source": "data:,export%20DOCKER_CLI_PLUGIN%3D%2Fusr%2Flibexec%2Fdocker%2Fcli-plugins"
-        },
-        "mode": 493
+        "passwordHash": "$6$r4Q2aGJTFlQProi5$lV9XcTiENdyu08aok9rnJ78IeOaj9OqZuOqzGqQm2kVw4Xot7YdKabYnaygp1SSHfBX4iOKHTaXUZIj43YBSJ0"
       }
     ]
   },
@@ -33,7 +21,7 @@
         "name": "docker.service"
       },
       {
-        "contents": "[Unit]\nDescription=Install Docker Compose V2 plugin\nWants=network-online.target\nAfter=network-online.target docker.service\n\n[Service]\nType=oneshot\nExecStart=/usr/bin/bash -c 'mkdir -p /usr/libexec/docker/cli-plugins \u0026\u0026 curl -sSL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/libexec/docker/cli-plugins/docker-compose \u0026\u0026 chmod +x /usr/libexec/docker/cli-plugins/docker-compose'\nRemainAfterExit=yes\n\n[Install]\nWantedBy=multi-user.target\n",
+        "contents": "[Unit]\nDescription=Install Docker Compose V2 plugin\nWants=network-online.target\nAfter=network-online.target docker.service\n\n[Service]\nType=oneshot\nExecStart=/usr/bin/bash -c 'mkdir -p /usr/libexec/docker/cli-plugins \u0026\u0026 /usr/bin/curl -sSL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/libexec/docker/cli-plugins/docker-compose \u0026\u0026 chmod +x /usr/libexec/docker/cli-plugins/docker-compose'\nRemainAfterExit=yes\n\n[Install]\nWantedBy=multi-user.target",
         "enabled": true,
         "name": "docker-compose-install.service"
       }
