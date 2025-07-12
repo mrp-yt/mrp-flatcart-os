@@ -22,16 +22,8 @@ systemd:
 
         [Service]
         Type=oneshot
-        ExecStart=/bin/bash -c 'mkdir -p /usr/libexec/docker/cli-plugins && curl -sSL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/libexec/docker/cli-plugins/docker-compose && chmod +x /usr/libexec/docker/cli-plugins/docker-compose'
+        ExecStart=/usr/bin/bash -c 'mkdir -p /usr/libexec/docker/cli-plugins && /usr/bin/curl -sSL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/libexec/docker/cli-plugins/docker-compose && chmod +x /usr/libexec/docker/cli-plugins/docker-compose'
         RemainAfterExit=yes
 
         [Install]
         WantedBy=multi-user.target
-
-storage:
-  files:
-    - path: /etc/profile.d/01-docker-alias.sh
-      mode: 0755
-      contents:
-        inline: |
-          export DOCKER_CLI_PLUGIN=/usr/libexec/docker/cli-plugins
