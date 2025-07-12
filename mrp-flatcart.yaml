@@ -1,14 +1,20 @@
+# filename: flatcar-config.yaml
 variant: flatcar
 version: 1.0.0
 
 passwd:
   users:
     - name: core
+      # It's highly recommended to use SSH keys for security.
+      # Replace this with your actual SSH public key, e.g.:
+      # ssh_authorized_keys:
+      #   - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC... your_email@example.com
       password_hash: "$6$r4Q2aGJTFlQProi5$lV9XcTiENdyu08aok9rnJ78IeOaj9OqZuOqzGqQm2kVw4Xot7YdKabYnaygp1SSHfBX4iOKHTaXUZIj43YBSJ0"
       groups: [docker, sudo]
 
 systemd:
   units:
+    # Ensure Docker service is enabled and started
     - name: docker.service
       enabled: true
 
@@ -22,7 +28,7 @@ systemd:
 
         [Service]
         Type=oneshot
-        ExecStart=/usr/bin/bash -c 'mkdir -p /usr/libexec/docker/cli-plugins && /usr/bin/curl -sSL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/libexec/docker/cli-plugins/docker-compose && chmod +x /usr/libexec/docker/cli-plugins/docker-compose'
+        ExecStart=/usr/bin/bash -c 'mkdir -p /usr/local/bin && /usr/bin/curl -sSL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose'
         RemainAfterExit=yes
 
         [Install]
