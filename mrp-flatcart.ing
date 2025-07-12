@@ -5,25 +5,22 @@
   "passwd": {
     "users": [
       {
-        "groups": [
-          "docker",
-          "sudo"
-        ],
         "name": "core",
-        "passwordHash": "$6$r4Q2aGJTFlQProi5$lV9XcTiENdyu08aok9rnJ78IeOaj9OqZuOqzGqQm2kVw4Xot7YdKabYnaygp1SSHfBX4iOKHTaXUZIj43YBSJ0"
+        "passwordHash": "$6$Gjd7qhKFfWYrDGrq$UaAVC5pgtetri3jRoEwdIDS5AD0EVOLFxubdgDrHQ7nzubEahvtE2itTRtGcCe5ap4U8zi44uw69h9tuJb0xk0"
       }
     ]
   },
   "systemd": {
     "units": [
       {
-        "enabled": true,
-        "name": "docker.service"
-      },
-      {
-        "contents": "[Unit]\nDescription=Install Docker Compose V2 plugin\nWants=network-online.target\nAfter=network-online.target docker.service\n\n[Service]\nType=oneshot\nExecStart=/usr/bin/bash -c 'mkdir -p /usr/libexec/docker/cli-plugins \u0026\u0026 /usr/bin/curl -sSL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/libexec/docker/cli-plugins/docker-compose \u0026\u0026 chmod +x /usr/libexec/docker/cli-plugins/docker-compose'\nRemainAfterExit=yes\n\n[Install]\nWantedBy=multi-user.target",
+        "contents": "[Unit]\nDescription=Install Docker Compose\nAfter=network-online.target\nWants=network-online.target\n[Service]\nType=oneshot\nRemainAfterExit=yes\nExecStartPre=/usr/bin/mkdir -p /opt/bin\nExecStartPre=/usr/bin/curl -L \"https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64\" -o /opt/bin/docker-compose\nExecStart=/usr/bin/chmod +x /opt/bin/docker-compose\n[Install]\nWantedBy=multi-user.target\n",
         "enabled": true,
         "name": "docker-compose-install.service"
+      },
+      {
+        "contents": "[Unit]\nDescription=Install btop\nAfter=network-online.target\nWants=network-online.target\n[Service]\nType=oneshot\nRemainAfterExit=yes\nExecStartPre=/usr/bin/mkdir -p /opt/bin\nExecStartPre=/usr/bin/curl -L \"https://github.com/aristocratos/btop/releases/download/v1.2.13/btop-x86_64-linux-musl\" -o /opt/bin/btop\nExecStart=/usr/bin/chmod +x /opt/bin/btop\n[Install]\nWantedBy=multi-user.target",
+        "enabled": true,
+        "name": "btop-install.service"
       }
     ]
   }
